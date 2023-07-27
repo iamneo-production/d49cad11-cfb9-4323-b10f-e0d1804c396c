@@ -19,54 +19,46 @@ const Login = () => {
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
-    const handleSubmit =  async(event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const email = data.get('email');
         const password = data.get('password');
-        
+
         if (email.trim() === '' && password.trim() === '') {
             toast.error('Please enter email and password');
             return;
         }
-        // Email validation
         if (!isValidEmail(email)) {
             toast.error('Invalid email address');
             return;
         }
-        
-        
-        
-        // Perform login authentication
-        
         const requestData = {
-            email:email,
-            password:password
-            };
-            
-            try
-            {
-                const response = await axios.post('http://localhost:2023/api/v1/auth/authenticate', requestData);
-                console.log(response.data);    
-                dispatch(setUsername(response.data.name));
-            
-        // if ((email === 'test@example.com' && password === 'password')|| (email === 'yashu@gmail.com'&& password === 'yashu')) {
-            // Reset form fields
-            // event.target.reset();
-            toast.success('Login successful!', {
-                position: toast.POSITION.TOP_RIGHT,
-                autoClose: 3000, // Toast will stay for 3 seconds
-                onClose: () => {
-                    // Redirect to home page
-                    // window.location.href= '/Navbar2';
-                    navigate("/Navbar2");
-                },
-            });
-        }catch(error){
+            email: email,
+            password: password
+        };
+        try {
+            const response = await axios.post('http://localhost:2023/api/v1/auth/authenticate', requestData);
+            console.log(response.data);
+            dispatch(setUsername(response.data.name));
+
+            if (password !== null) {
+                toast.success('Login successful!', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    autoClose: 3000, // Toast will stay for 3 seconds
+                    onClose: () => {
+                        navigate("/Navbar2");
+                    },
+                });
+            }
+            else {
+                navigate("/Home");
+            }
+        } catch (error) {
             console.error('Error registering user:', error);
 
         }
-        
+
     };
 
     const isValidEmail = (email) => {

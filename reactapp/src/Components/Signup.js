@@ -97,7 +97,7 @@ const Signup = () => {
             autoClose: 3000, // Toast will stay for 3 seconds
             onClose: () => {
                 // Redirect to another page
-                navigate('/Login');
+                navigate('/ELogin');
             },
         });
     }catch (error) {
